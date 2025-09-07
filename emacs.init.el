@@ -1,5 +1,3 @@
-;; testing
-
 (require 'package)
 
 ;; adds melpa as an additional repository for package
@@ -12,14 +10,6 @@
 
 ;; enables context menu on mouse right click (why not default???)
 (context-menu-mode t)
-
-(defun kill-inside (start end)
-  (interactive "r")
-  (up-list)
-  (backward-char)
-  (push-mark)
-  (up-list -1)
-  (kill-region start end))
 
 ;; auto-save-mode doesn't create the path automatically!
 (make-directory (expand-file-name "tmp/auto-saves/" user-emacs-directory) t)
@@ -42,7 +32,7 @@
       completion-auto-select t
       completion-auto-help 'visible
       ;; completions-format 'one-column
-      completions-max-height 10
+      completions-max-height 15
       completions-sort 'alphabetical
       completion-ignore-case t)
 
@@ -50,11 +40,15 @@
 (electric-pair-mode 1)
 
 (fido-mode t)
-(fido-vertical-mode t)
+(fido--mode t)
 
 ;; just a nicer looking modeline
 (simple-modeline-mode t)
 
+
+;; allows me to easilly search for all files inside a directory
+;; no matter the nesting (either uses a git repo or a manual selection)
+(global-set-key (kbd "C-;") 'project-find-file);
 
 ;; adds completion and lsp when prog files are loaded
 ;; eglot displays an error if no lsp server is installed
@@ -62,6 +56,8 @@
 (add-hook 'prog-mode-hook 'corfu-mode)
 (add-hook 'prog-mode-hook 'eglot-ensure)
 
+
+;; auto config for compile command; might change it later
 (add-hook 'c++-mode-hook
   (lambda ()
     (setq compile-command 
@@ -72,6 +68,7 @@
 (setq corfu-auto t)
 
 ;; display identation tabs or spaces
+;; this isn't really working
 ;; note that face must also be in the list
 (setq-default whitespace-style '(face indentation indentation::tabs indentation::spaces))
 
@@ -79,23 +76,11 @@
 ;; don't move point around on scroll
 (setq scroll-preserve-screen-position t)
 
-(setq mode-line-format '("%e" mode-line-front-space
- (:propertize
-  ("" mode-line-mule-info mode-line-client mode-line-modified mode-line-remote)
-  display
-  (min-width
-   (5.0)))
- mode-line-frame-identification mode-line-buffer-identification " "
- (vc-mode vc-mode)
- " " mode-line-modes mode-line-misc-info mode-line-end-spaces)
-)
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ac-use-fuzzy t)
  '(custom-enabled-themes '(doom-tomorrow-night))
  '(custom-safe-themes
    '("7e377879cbd60c66b88e51fad480b3ab18d60847f31c435f15f5df18bdb18184"))
