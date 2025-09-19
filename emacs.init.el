@@ -40,7 +40,7 @@
 (electric-pair-mode 1)
 
 (fido-mode t)
-(fido--mode t)
+(fido-vertical-mode t)
 
 ;; just a nicer looking modeline
 (simple-modeline-mode t)
@@ -48,7 +48,10 @@
 
 ;; allows me to easilly search for all files inside a directory
 ;; no matter the nesting (either uses a git repo or a manual selection)
-(global-set-key (kbd "C-;") 'project-find-file);
+(global-set-key (kbd "C-;") 'project-find-file)
+
+;; shortcut to move to the end of the line
+(global-set-key (kbd "C-$") 'end-of-line)
 
 ;; adds completion and lsp when prog files are loaded
 ;; eglot displays an error if no lsp server is installed
@@ -76,12 +79,22 @@
 ;; don't move point around on scroll
 (setq scroll-preserve-screen-position t)
 
+
+(transient-define-prefix my/compile ()
+"Group for compiling related tasks"
+["Compilation"
+ ("c" "compile" compile)
+ ("g" "recompile" recompile)])
+
+(global-set-key (kbd "C-.") 'my/compile)
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes '(doom-tomorrow-night))
+ '(custom-enabled-themes '(sanityinc-tomorrow-night))
  '(custom-safe-themes
    '("7e377879cbd60c66b88e51fad480b3ab18d60847f31c435f15f5df18bdb18184"))
  '(doom-tomorrow-night-padded-modeline nil)
@@ -90,8 +103,7 @@
  '(initial-scratch-message nil)
  '(package-selected-packages
    '(simple-modeline parrot nyan-mode doom-themes ef-themes standard-themes corfu riscv-mode jsonian gruber-darker-theme catppuccin-theme))
- '(pixel-scroll-precision-mode t)
- '(windmove-default-keybindings '([ignore] meta)))
+ '(pixel-scroll-precision-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
